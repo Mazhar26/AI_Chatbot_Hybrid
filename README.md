@@ -31,7 +31,6 @@ Versions (Recommended)
 
 🏗 System Architecture
 ✔Architecture Diagram
-
                 ┌────────────────────┐
                 │     User Input     │
                 └─────────┬──────────┘
