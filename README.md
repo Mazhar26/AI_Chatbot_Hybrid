@@ -1,24 +1,31 @@
 📘 AI Chatbot Hybrid – Final Project Documentation
 
-✔ A hybrid AI chatbot built in Python that combines a local offline AI model (DialoGPT) with the Gemini Generative AI API. The system intelligently switches between the local model and the cloud model based on the user’s input to provide both fast and highly accurate responses.
+## AI-Powered Hybrid Chatbot
 
-🧰 ✔✔Tech Stack
-✔Languages:
-Python 3.10+
+AI-Powered Hybrid Chatbot is a Python-based CLI application that dynamically routes user queries between a local DialoGPT model and the Gemini Generative AI API, balancing offline speed with cloud-level intelligence.
 
-✔Frameworks & Libraries:
-google-generativeai – Gemini API integration
-dotenv – environment variable management
-json, datetime, regex – Python core modules
+## What You’ll See in This Repo:
+- hybrid_chatbot.py — Main program
+- README.md — Documentation
+- .env.example — Environment setup
 
-transformers – for running the local DialoGPT model
-torch – required backend for DialoGPT
-DialoGPT-medium – local AI model for offline conversations
 
-✔Developer Tools
-VS Code
-Git & GitHub
-Virtual Environment (venv)
+### Tech Stack
+
+### Languages
+- Python 3.10+
+
+### Frameworks & Libraries
+- google-generativeai (Gemini API)
+- python-dotenv
+- transformers
+- torch
+- DialoGPT-medium
+
+### Developer Tools
+- VS Code
+- Git & GitHub
+- Virtual Environment (venv)
 
 Versions (Recommended)
 | Component           | Version   |
@@ -29,8 +36,7 @@ Versions (Recommended)
 
 
 
-🏗 System Architecture
-✔Architecture Diagram
+### System Architecture
                 ┌────────────────────┐
                 │     User Input     │
                 └─────────┬──────────┘
@@ -57,40 +63,47 @@ Versions (Recommended)
 
 
 
-*Explanation:
-✔This chatbot uses a hybrid AI system.  
-✔If the user types a normal message, the program uses DialoGPT-medium (a local offline model) to generate a response.  
-✔If the user types a message starting with "gemini:", the Hybrid Controller forwards the request to Google Gemini 2.5 Flash using the google-generativeai API.
-✔This design combines offline speed with cloud-level intelligence.
+## Explanation
+- This chatbot uses a hybrid AI system.
+- If the user types a normal message, the program uses DialoGPT-medium (a local offline model).
+- If the user types a message starting with "gemini:", the request is forwarded to Google Gemini 2.5 Flash via the API.
+- This design combines offline speed with cloud-level intelligence.
 
-✨ Core Features
-✔ Hybrid AI System (Local + Cloud).
-✔ Local Offline AI using DialoGPT (works without internet).
-✔ Cloud AI using Gemini 2.5 Flash (intelligent responses).
-✔ Smart model switching based on input.
-✔ Secure API management with .env.
-✔ Easy to extend and customize.
+## Core Features
+- Hybrid AI System (Local + Cloud).
+- Local Offline AI using DialoGPT (works without internet).
+- Cloud AI using Gemini 2.5 Flash (intelligent responses).
+- Smart model switching based on input.
+- Secure API management with .env.
+- Easy to extend and customize.
 
-✔✔Trade-offs
-✔ Local model has limited context and creativity.
-✔ Gemini requires internet + API usage.
-✔Basic CLI interface (can be upgraded to web UI later).
+### Trade-offs
+- Local model has limited context and creativity.
+- Gemini requires internet + API usage.
+- Basic CLI interface (can be upgraded to web UI later).
 
-🚀 Setup & Run Guide
-🔧 Prerequisites
-Python 3.10+
-Gemini API Key (from Google AI Studio)
-Git
+## Setup & Run Guide
 
-1️⃣ Clone the Repo
+### Prerequisites
+- Python 3.10+
+- Gemini API Key (from Google AI Studio)
+- Git
+
+1️⃣  Clone the Repository
 git clone https://github.com/Mazhar26/AI_Chatbot_Hybrid.git
 cd AI_Chatbot_Hybrid
 
 2️⃣ Create Virtual Environment
 python -m venv venv
 
-✔Activate:
+### Activate:
+***Windows***
+bash
 venv\Scripts\activate
+
+***Linux/macOs***
+bash
+source venv/bin/activate
 
 3️⃣ Install Dependencies
 pip install google-generativeai python-dotenv transformers torch
@@ -101,28 +114,35 @@ GEMINI_API_KEY=your_api_key_here
 5️⃣ Run the Chatbot
 python hybrid_chatbot.py
 
-🗂 .env.example
-# Gemini API Key
+.env.example
 GEMINI_API_KEY=your_api_key_here
 
-🔑 Key APIs & Components
-✔Gemini API Initialization
+### Key Components
+- Gemini API integration using google-generativeai
+- Local inference using DialoGPT via Hugging Face Transformers
+- Secure API key management using environment variables
+
+### Sending a Prompt to Gemini
 import google.generativeai as genai
+import os
+
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-✔Sending a Prompt to Gemini
 gemini_model = genai.GenerativeModel("models/gemini-2.5-flash")
 prompt = "Explain AI"
 response = gemini_model.generate_content(prompt)
 print(response.text)
 
-✔from transformers import AutoTokenizer, AutoModelForCausalLM
+
+### Local Model Setup(DialoGPT)
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
 local_model_name = "microsoft/DialoGPT-medium"
 tokenizer = AutoTokenizer.from_pretrained(local_model_name)
 local_model = AutoModelForCausalLM.from_pretrained(local_model_name)
 
-✔Generating a Response Using the Local DialoGPT Model:
 
+### Generating a Response Using the Local DialoGPT Model:
 new_input_ids = tokenizer.encode(
     user_input + tokenizer.eos_token,
     return_tensors="pt"
@@ -151,27 +171,27 @@ reply = tokenizer.decode(
 print("Local AI:", reply)
 
 
-🌐 Deployment
+
+### Deployment
 Current Status: Not deployed
-✔Possible deployment platforms (future):
-✔Render
-✔Railway
-✔Azure App Service
-✔AWS EC2
-✔Google Cloud Run
 
-📈 Impact & Metrics
-✔ Local DialoGPT processing: Instant (<0.1s)
-✔ Gemini LLM response time: 0.5–1.5 seconds
-✔ Lightweight hybrid architecture
-✔ Low CPU & memory usage
-✔ Suitable for college demos and small applications
+Possible deployment platforms (future):
+-Render
+-Railway
+-Azure App Service
+-AWS EC2
+-Google Cloud Run
 
-🚧 What’s Next (Future Improvements)
-✔ Add a web-based UI (Flask / Streamlit)
-✔ Add conversation history
-✔ Add vector memory using FAISS / Pinecone
-✔ Deploy online
-✔ Add voice-to-text support
-✔ Add advanced model switching between more Gemini models
-(e.g., Gemini 2.5 Pro, Gemini 2.5 Flash-L, etc.)
+## Performance Notes
+- Local DialoGPT responses are near-instant for simple queries
+- Cloud-based Gemini responses depend on network latency
+- Lightweight architecture suitable for small applications and demos
+
+## Possible Extensions
+- Add a web-based UI (Flask / Streamlit)
+- Add conversation history
+- Add vector memory using FAISS / Pinecone
+- Deploy online
+- Add voice-to-text support
+- Add advanced model switching between more Gemini models
+  (e.g., Gemini 2.5 Pro, Gemini 2.5 Flash-L, etc.)
